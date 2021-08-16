@@ -99,6 +99,8 @@ func playData(data string) (string, error) {
 
 // Console side cmd will not be sent to server
 func isConsoleCmd(cmd string) (isLocal bool, localCmd int, args []string) {
+	isLocal = false
+	localCmd = Unknown
 	// Currently, command "exit" and  "quit" can also exit the console
 	if cmd == "exit" || cmd == "quit" {
 		isLocal = true
@@ -107,7 +109,7 @@ func isConsoleCmd(cmd string) (isLocal bool, localCmd int, args []string) {
 	}
 
 	plain := strings.TrimSpace(strings.ToLower(cmd))
-	if len(plain) < 1 || plain[0] != ':' {
+	if len(plain) < 1 || plain[0] != ':' || strings.Contains(plain, "=>") {
 		return
 	}
 
